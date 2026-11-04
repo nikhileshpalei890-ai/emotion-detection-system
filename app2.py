@@ -27,8 +27,21 @@ emotion_labels = {
     4: "Surprised"
 }
 
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+# face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+import os
 
+cascade_path = os.path.join(
+    os.path.dirname(cv2.__file__),
+    "data",
+    "haarcascade_frontalface_default.xml"
+)
+
+face_cascade = cv2.CascadeClassifier(cascade_path)
+
+if face_cascade.empty():
+    st.error("Could not load Haar Cascade XML file.")
+    st.stop()
+    
 # --- FIX: Use Streamlit's native browser webcam input component ---
 img_file_buffer = st.camera_input("Take a photo to analyze your current stress/emotion level")
 
